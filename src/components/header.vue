@@ -1,0 +1,121 @@
+<template>
+  <div class="divheader">
+    <v-app-bar-nav-icon
+      @click.stop="drawer = !drawer"
+      class="btndrawer item"
+    ></v-app-bar-nav-icon>
+    <v-btn
+      color="accent"
+      elevation="4"
+      raised
+      rounded
+      small
+      text
+      class="connexioninscription"
+      >CONNEXION</v-btn
+    >
+    <v-btn
+      color="accent"
+      elevation="4"
+      raised
+      rounded
+      small
+      text
+      class="connexioninscription"
+      >INSCRIPTION</v-btn
+    >
+    <v-btn
+      color="accent"
+      id="btncreerevent"
+      elevation="4"
+      raised
+      rounded
+      small
+      text
+      >CREER UN EVENEMENT
+      <v-btn
+        id="btncreereventredinterieur"
+        color="accent"
+        elevation="2"
+        rounded
+        small
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="7.582"
+          height="12.519"
+          viewBox="0 0 7.582 12.519"
+        >
+          <path
+            id="Tracé_11"
+            data-name="Tracé 11"
+            d="M26.582,16.758v0a.82.82,0,0,0-.252-.592h0l-4.937-4.937,0,0a.822.822,0,1,0-1.105,1.218L24.6,16.758,20.23,21.125h0a.823.823,0,0,0,1.163,1.163h0l4.937-4.937h0a.82.82,0,0,0,.252-.592Z"
+            transform="translate(-19.5 -10.5)"
+            fill="#fff"
+            stroke="#fff"
+            stroke-width="1"
+          />
+        </svg> </v-btn
+    ></v-btn>
+  </div>
+</template>
+
+<style lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+* {
+  font-family: "Noto Sans", sans-serif;
+}
+.btndrawer {
+  color: white;
+}
+.item {
+  //font-size: 7px;
+  font-family: "Noto Sans", sans-serif;
+  vertical-align: middle;
+}
+.divheader > button > .v-btn__content {
+  font-size: 7px;
+  font-family: "Noto Sans", sans-serif;
+  color: white;
+}
+#btncreereventredinterieur {
+  border-radius: 100%;
+  margin-left: 5px;
+  box-shadow: unset !important;
+  span {
+    color: white !important;
+  }
+  color: red;
+  background-color: red;
+  border: solid 2px;
+  height: 2.5vh;
+  min-width: 0.8vh;
+  min-height: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.divheader {
+  padding-top: 10px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-evenly;
+}
+button {
+  align-self: center;
+}
+#btncreerevent {
+  box-shadow: 0px 0px 16px -3px rgba(0, 0, 0, 0.25);
+  margin-right: 10px;
+  background-color: white;
+  .v-btn__content {
+    color: #727c8e;
+    font-weight: 700;
+  }
+}
+.v-btn:not(.v-btn--round).v-size--small {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+.connexioninscription > span {
+  font-size: 2.5vw !important;
+}
+</style>
