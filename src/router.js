@@ -5,6 +5,7 @@ import Inscription from './views/inscription.vue'
 import creationevent from './views/creationevent.vue'
 import connexion from './views/connexion.vue'
 import recherchevent from './views/recherchevent.vue'
+import eventdetail from './views/eventdetail.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -37,6 +38,12 @@ const router = new Router({
             path: '/recherchevent',
             name: 'recherchevent',
             component: recherchevent,
+            props: true
+        },
+        {
+            path: '/event-detail/:actid',
+            name: 'detailEvent',
+            component: eventdetail,
             props: true
         }
     ]

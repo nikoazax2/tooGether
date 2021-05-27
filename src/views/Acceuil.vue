@@ -204,6 +204,33 @@
     </v-card>
     <div class="barrederecherchecontainer">
       <div class="barrederecherche">
+        <div>
+          <img class="pastille" src="@/assets/pastille.svg" alt="pastille" />
+          <input
+            id="inputrechercheevent"
+            class="nomevent"
+            type="text"
+            :placeholder="placehorlderRecherche.nom"
+          />
+        </div>
+        <div>
+          <img class="pastille" src="@/assets/pastille.svg" alt="pastille" />
+          <input
+            class="endroit"
+            id="inputrechercheevent"
+            type="text"
+            :placeholder="placehorlderRecherche.lieux"
+          />
+        </div>
+        <div>
+          <img class="pastille" src="@/assets/pastille.svg" alt="pastille" />
+          <input
+            class="date"
+            id="inputrechercheevent"
+            type="text"
+            :placeholder="placehorlderRecherche.date"
+          />
+        </div>
         <v-btn
           to="/recherchevent"
           id="btncreereventredinterieur"
@@ -290,18 +317,66 @@ export default {
       user: "user",
     }),
   },
-  created: function () {},
+  mounted: function () {
+    var d = new Date();
+    var day = String(d.getDate()).padStart(2, "0");
+    var month = String(d.getMonth() + 1).padStart(2, "0");
+    this.placehorlderRecherche.date = day + "/" + month;
+    this.placeholderChangement(
+      this.placehorlderRechercheListe,
+      this.placehorlderRecherche,
+      day,
+      month
+    );
+  },
   data: function () {
     return {
       drawer: false,
       group: null,
       act: ["slt", "lol"],
+      placehorlderRechercheListe: {
+        nom: [
+          "Jouer au foot",
+          "Faire un basket",
+          "Aller au cinéma",
+          "Boire une bière",
+        ],
+        lieux: ["à Grenoble", "à Lyon", "à Paris", "à Montpellier", "à Metz"],
+      },
+      placehorlderRecherche: {
+        nom: "Aller au cinéma",
+        lieux: "à Grenoble",
+        date: "",
+      },
     };
   },
   components: {
     degouline: degouline,
   },
   methods: {
+    placeholderChangement(liste, placeholder, day, month) {
+      setTimeout(() => {
+        var random = Math.floor(Math.random() * liste.nom.length);
+        placeholder.nom = liste.nom[random];
+
+        var randomlieux = Math.floor(Math.random() * liste.lieux.length);
+        placeholder.lieux = liste.lieux[randomlieux];
+
+        placeholder.date = day + "/" + month;
+
+        if (day < 30) day++;
+        else {
+          month = month + 1;
+          day = 1;
+        }
+
+        if (month > 12) {
+          month = 0;
+        }
+
+        this.placeholderChangement(liste, placeholder, day, month);
+      }, 3000);
+    },
     signOut() {
       firebase
         .auth()
@@ -372,12 +447,17 @@ body {
   width: 100%;
 }
 .barrederecherche {
+  display: flex;
+  justify-content: space-around;
   border-radius: 20px;
   margin: auto;
   background-color: white;
   width: 90%;
   height: 30px;
   box-shadow: 0px 0px 16px -3px rgba(0, 0, 0, 0.25);
+  div {
+    margin-top: 1%;
+  }
 }
 .comboActivite {
   .v-input__control {
@@ -476,5 +556,29 @@ body {
 }
 .blocchiffretexteetapes {
   display: block;
+}
+#inputrechercheevent {
+  font-size: 3.5vw;
+  width: 18vw;
+  transform: translateY(-5px);
+}
+.nomevent {
+}
+.pastille {
+}
+.date {
+  width: 16vw !important;
+}
+.endroit {
+  width: 22vw !important;
+}
+#btncreereventredinterieur {
+  margin-top: 5px !important;
+}
+.titrecarduserheader {
+  margin-top: -15px !important;
+  div {
+    font-size: 5vw !important;
+  }
 }
 </style>

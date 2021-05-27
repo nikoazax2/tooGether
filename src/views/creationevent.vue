@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app" data-app>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -99,6 +99,64 @@
           />
         </div>
       </div>
+      <div class="form-group rowcreerevenet">
+        <div class="col-md-6">
+          <input
+            placeholder="Date"
+            id="date"
+            type="date"
+            class="form-control"
+            name="date"
+            required
+            v-model="form.date"
+          />
+        </div>
+      </div>
+
+      <div class="form-group rowcreerevenet">
+        <v-row>
+          <v-col cols="11" sm="5">
+            <v-dialog
+              ref="dialog"
+              v-model="modal2"
+              :return-value.sync="form.hour"
+              width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  class="champchoixheure"
+                  v-model="form.hour"
+                  label="Heure"
+                  prepend-icon="mdi-clock-time-four-outline"
+                  readonly
+                  required
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-time-picker
+                v-if="modal2"
+                required
+                format="24hr"
+                v-model="form.hour"
+                full-width
+              >
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="modal2 = false">
+                  Cancel
+                </v-btn>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.dialog.save(form.hour)"
+                >
+                  OK
+                </v-btn>
+              </v-time-picker>
+            </v-dialog>
+          </v-col>
+        </v-row>
+      </div>
 
       <div class="form-group rowcreerevenet">
         <div class="col-md-6">
@@ -116,7 +174,7 @@
 
       <div class="form-group row mb-0 btnajoutenevent">
         <div class="col-md-8 offset-md-4">
-          <button type="submit" class="btn btn-primary">AJOUTER</button>
+          <v-btn to="/" id="btnvalidercreationevent"> AJOUTER </v-btn>
         </div>
       </div>
     </form>
@@ -132,6 +190,10 @@ export default {
   created: function () {},
   data: function () {
     return {
+      time: null,
+      menu2: false,
+      modal2: false,
+      timeStep: "10:10",
       drawer: false,
       group: null,
       act: ["slt", "lol"],
@@ -139,6 +201,8 @@ export default {
         name: "",
         Lieux: "",
         tags: "",
+        date: "",
+        hour: "",
       },
       error: null,
     };
@@ -147,11 +211,16 @@ export default {
     degouline: degouline,
   },
   methods: {
+    allowedHours: (v) => v % 2,
+    allowedMinutes: (v) => v >= 10 && v <= 50,
+    allowedStep: (m) => m % 10 === 0,
     submit() {
       db.collection("activite")
         .add({
           name: this.form.name,
           lieux: this.form.Lieux,
+          hour: this.form.hour,
+          date: this.form.date,
           tags: this.form.tags,
         })
         .then(() => {
@@ -245,22 +314,50 @@ body {
   div > input {
     width: 95%;
   }
+  .col-md-6 {
+    padding-top: 0;
+  }
 }
 .btnajoutenevent {
   text-align: center;
-  padding-left: 15px;
-  padding-top: 9px;
+  padding-top: 5px;
   border-radius: 20px;
   margin: 20px;
   height: 40px;
   background-color: #e92626;
   color: white;
   box-shadow: 0px 0px 16px -3px rgba(233, 38, 38, 0.75);
+  div {
+    padding: 0 !important;
+  }
 }
 .containerdivtitrecreationevent {
   justify-content: space-evenly;
   width: 100%;
   margin-top: 20%;
   display: inline-flex;
+}
+.v-picker__title,
+.v-time-picker-clock__hand {
+  background-color: #e92626;
+  border-color: #e92626;
+}
+.v-time-picker-clock__item--active {
+  background-color: #e92626;
+}
+.champchoixheure {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+.theme--light.v-btn.v-btn--has-bg {
+  background-color: rgba(0, 0, 0, 0);
+}
+.v-btn--is-elevated {
+  box-shadow: unset;
+}
+.btnajoutenevent {
+  div > a > .v-btn__content {
+    color: white;
+  }
 }
 </style>
