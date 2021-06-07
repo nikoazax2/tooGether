@@ -174,7 +174,9 @@
 
       <div class="form-group row mb-0 btnajoutenevent">
         <div class="col-md-8 offset-md-4">
-          <v-btn to="/" id="btnvalidercreationevent"> AJOUTER </v-btn>
+          <v-btn @click="addEvent()" id="btnvalidercreationevent">
+            AJOUTER
+          </v-btn>
         </div>
       </div>
     </form>
@@ -183,12 +185,16 @@
 
 <script>
 import degouline from "@/components/degoulinerouge";
-import firebase from "firebase";
-const db = firebase.firestore();
+// import firebase from "firebase";
+// const db = firebase.firestore();
+const API_URL = "http://localhost:3000";
 export default {
   name: "App",
-  created: function () {},
-  data: function () {
+  async created() {
+    let req = await this.axios.get(`${API_URL}/activities/`);
+    console.log(req.data);
+  },
+  data: function() {
     return {
       time: null,
       menu2: false,
@@ -210,12 +216,14 @@ export default {
   components: {
     degouline: degouline,
   },
+
   methods: {
     allowedHours: (v) => v % 2,
     allowedMinutes: (v) => v >= 10 && v <= 50,
     allowedStep: (m) => m % 10 === 0,
-    submit() {
-      db.collection("activite")
+
+    async addEvent() {
+      /* db.collection("activite")
         .add({
           name: this.form.name,
           lieux: this.form.Lieux,
@@ -228,7 +236,15 @@ export default {
         })
         .catch((error) => {
           console.error("Error writing : ", error);
-        });
+        }); */
+
+      let req = await this.axios.post(`${API_URL}/activities/`, this.form);
+
+      if (req.status === 201) {
+        console.log("OK", req.data);
+      } else {
+        console.error("Error:", req);
+      }
     },
   },
   watch: {

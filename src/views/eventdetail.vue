@@ -23,8 +23,7 @@
         >Faites des rencontres en faisant ce que vous aimez</v-card-text
       >
     </v-card>
-
-    <div v-if="true" class="conteneurEvents">
+    <div v-if="!chargement" class="conteneurEvents">
       {{ lact }}
     </div>
   </div>
@@ -41,7 +40,7 @@ export default {
     return {
       drawer: false,
       group: null,
-      lact: [],
+      lact: null,
       error: null,
       chargement: true,
     };
@@ -56,8 +55,7 @@ export default {
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
-            console.log(doc.data());
-            this.lact.push(doc.data());
+            this.lact = doc.data().data;
             this.chargement = false;
           });
         });

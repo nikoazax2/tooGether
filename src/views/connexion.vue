@@ -96,8 +96,8 @@ import headere from "@/components/header";
 import firebase from "firebase";
 export default {
   name: "App",
-  created: function () {},
-  data: function () {
+  created: function() {},
+  data: function() {
     return {
       form: {
         email: "",

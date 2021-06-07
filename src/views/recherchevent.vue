@@ -182,7 +182,7 @@ export default {
   methods: {
     gotodetail(item) {
       console.log(item);
-
+      
       this.$router.push("event-detail/" + item.id);
     },
     placeholderChangement(liste, placeholder, day, month) {
