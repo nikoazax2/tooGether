@@ -146,9 +146,8 @@
         </div>
         <div class="userconnected">
           <v-card class="titrecarduserheader">
-            <v-card-title>{{ user.data.displayName }}</v-card-title>
+            <v-card-title>{{ user.data.surname }}</v-card-title>
           </v-card>
-          {{ user.name }}
         </div>
 
         <div>
@@ -317,7 +316,7 @@ export default {
       user: "user",
     }),
   },
-  mounted: function () {
+  mounted: function() {
     var d = new Date();
     var day = String(d.getDate()).padStart(2, "0");
     var month = String(d.getMonth() + 1).padStart(2, "0");
@@ -329,7 +328,7 @@ export default {
       month
     );
   },
-  data: function () {
+  data: function() {
     return {
       drawer: false,
       group: null,

@@ -93,15 +93,16 @@
 <script>
 import degouline from "@/components/degoulinerouge";
 import headere from "@/components/header";
-import firebase from "firebase";
+const API_URL = "http://localhost:3000/api";
 export default {
   name: "App",
   created: function() {},
+
   data: function() {
     return {
       form: {
-        email: "",
-        password: "",
+        email: "nicolasage38@orange.fr",
+        password: "nicolas",
       },
       drawer: false,
       group: null,
@@ -113,16 +114,24 @@ export default {
     headere: headere,
   },
   methods: {
-    submit() {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.form.email, this.form.password)
-        .then(() => {
-          this.$router.replace({ name: "App" });
-        })
-        .catch((err) => {
-          this.error = err.message;
+    async submit() {
+      try {
+        let req = await this.axios.post(`${API_URL}/auth/login`, this.form);
+        console.log(req.data);
+
+        this.axios.interceptors.request.use(function(config) {
+          config.headers.Authorization =
+            "Bearer " + req.data.payload.access_token;
+          return config;
         });
+
+        this.$store.commit("SET_LOGGED_IN", true);
+        this.$store.commit("SET_USER", req.data.user);
+
+        this.$router.replace({ name: "App" });
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
   watch: {

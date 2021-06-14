@@ -105,7 +105,7 @@
       </div>
       <div class="userconnected">
         <v-card class="titrecarduserheader">
-          <v-card-title>{{ user.data.displayName }}</v-card-title>
+          <v-card-title>{{ user.data.firstName }}</v-card-title>
         </v-card>
         {{ user.name }}
       </div>
@@ -198,8 +198,8 @@ export default {
       user: "user",
     }),
   },
-  created: function () {},
-  data: function () {
+  created: function() {},
+  data: function() {
     return {};
   },
   components: {},

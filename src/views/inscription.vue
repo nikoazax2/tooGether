@@ -40,7 +40,7 @@
             value
             required
             autofocus
-            v-model="form.name"
+            v-model="form.surname"
           />
         </div>
       </div>
@@ -95,18 +95,17 @@
 
 <script>
 import degouline from "@/components/degoulinerouge";
-import firebase from "firebase";
-const db = firebase.firestore();
+const API_URL = "http://localhost:3000/api";
 export default {
   name: "App",
-  created: function () {},
-  data: function () {
+  created: function() {},
+  data: function() {
     return {
       drawer: false,
       group: null,
       act: ["slt", "lol"],
       form: {
-        name: "",
+        surname: "",
         email: "",
         password: "",
       },
@@ -123,38 +122,24 @@ export default {
         name: "Acceuil",
       });
     },
-    submit() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then((data) => {
-          data.user
-            .updateProfile({
-              displayName: this.form.name,
-            })
-            .then(() => {
-              this.Insert("users", {
-                email: this.form.email,
-                password: this.form.password,
-              });
-              this.$router.replace({
-                name: "App",
-              });
-            });
-        })
-        .catch((err) => {
-          this.error = err.message;
+    async submit() {
+      try {
+        let req = await this.axios.post(`${API_URL}/auth/register`, this.form);
+        console.log(req.data);
+
+        this.axios.interceptors.request.use(function(config) {
+          config.headers.Authorization =
+            "Bearer " + req.data.payload.access_token;
+          return config;
         });
-    },
-    Insert(collection, jsonval) {
-      db.collection(collection)
-        .add(jsonval)
-        .then(() => {
-          console.log("inserted !");
-        })
-        .catch((error) => {
-          console.error("Error writing : ", error);
-        });
+
+        this.$store.commit("SET_LOGGED_IN", true);
+        this.$store.commit("SET_USER", req.data.user);
+
+        this.$router.replace({ name: "App" });
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
   watch: {

@@ -187,7 +187,7 @@
 import degouline from "@/components/degoulinerouge";
 // import firebase from "firebase";
 // const db = firebase.firestore();
-const API_URL = "http://localhost:3000";
+const API_URL = "http://localhost:3000/api";
 export default {
   name: "App",
   async created() {
@@ -238,7 +238,7 @@ export default {
           console.error("Error writing : ", error);
         }); */
 
-      let req = await this.axios.post(`${API_URL}/activities/`, this.form);
+      let req = await this.axios.get(`${API_URL}/activities`);
 
       if (req.status === 201) {
         console.log("OK", req.data);
